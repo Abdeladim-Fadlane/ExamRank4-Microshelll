@@ -12,14 +12,13 @@ void put_err( char *s1,  char *s2) {
     write(2, s2, ft_strlen(s2));
     write(2, "\n", 1);
 }
-void execute(char **argv, char **env, int i) {
+void execute(char **argv, char **env, int i){
     argv[i] = NULL;
     execve(argv[0], argv, env);
     put_err("error: cannot execute ", argv[0]);
     exit(1);
 }
-int main(int argc, char **argv, char **env)
-{
+int main(int argc, char **argv, char **env){
     int fd[2];
     int i = 0;
     if (argc == 1)
@@ -35,8 +34,7 @@ int main(int argc, char **argv, char **env)
             else if (chdir(argv[1]) != 0)
                 put_err("error: cd: cannot change directory to ", argv[1]);
         } else if (i != 0 && (argv[i] == NULL || strcmp(argv[i], ";") == 0)) {
-            int pid = fork();
-            if (pid == 0)
+            if (fork() == 0)
                 execute(argv, env, i);
             else
                 wait(NULL);
