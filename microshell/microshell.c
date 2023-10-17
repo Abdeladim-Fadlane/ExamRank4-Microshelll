@@ -37,7 +37,7 @@ int main(int argc, char **argv, char **env){
             if (fork() == 0)
                 execute(argv, env, i);
             else
-                wait(NULL);
+                waitpid(-1,NULL,2);
         } else if (i != 0 && strcmp(argv[i], "|") == 0) {
             pipe(fd);
             if (fork() == 0) {
@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **env){
                 dup2(fd[0], 0);
                 close(fd[1]);
                 close(fd[0]);
-                wait(NULL);
+                waitpid(-1,NULL,2);
             }
         }
     }
